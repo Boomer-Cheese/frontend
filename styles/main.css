@@ -1,0 +1,45 @@
+/* Reset some default browser styles */
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Set a background color and font styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Style the main app container */
+#app {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Add some styles for headings */
+h1, h2, h3 {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Style links */
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Add some padding to paragraphs */
+p {
+  margin-bottom: 20px;
+}
