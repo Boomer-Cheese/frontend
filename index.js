@@ -51,9 +51,8 @@ async function loadSplats() {
 
 async function loadSplat(name) {
   try {
-    while (scene.children.length > 0) {
-      scene.remove(scene.children[0]);
-    }
+    scene.remove.apply(scene, scene.children);
+
 
     const response = await fetch('http://localhost:3000/file', {
       method: 'POST',
