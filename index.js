@@ -1,6 +1,6 @@
 import * as SPLAT from "gsplat";
 
-const scene = new SPLAT.Scene();
+var scene = new SPLAT.Scene();
 const camera = new SPLAT.Camera();
 const renderer = new SPLAT.WebGLRenderer();
 const controls = new SPLAT.OrbitControls(camera, renderer.canvas);
@@ -41,7 +41,10 @@ async function loadSplats() {
     splatNames.forEach(name => {
       const listItem = document.createElement('li');
       listItem.textContent = name;
-      listItem.addEventListener('click', () => loadSplat(name));
+      listItem.addEventListener('click', () => {
+        scene = new SPLAT.Scene();
+        loadSplat(name);
+      });
       splatsList.appendChild(listItem);
     });
   } catch (error) {
@@ -51,10 +54,6 @@ async function loadSplats() {
 
 async function loadSplat(name) {
   try {
-    while (scene.children.length > 0) {
-      scene.remove(scene.children[0]);
-    }
-
     const response = await fetch('http://localhost:3000/file', {
       method: 'POST',
       headers: {
@@ -70,7 +69,6 @@ async function loadSplat(name) {
     const blob = await response.blob();
     const video_img = URL.createObjectURL(blob);
 
-    // Logic to load the splat into the scene
     SPLAT.PLYLoader.LoadAsync(video_img, scene, () => {
       console.log(`Loaded splat from ${name}`);
     });
