@@ -12,10 +12,10 @@
 <body>
   <header>
     <nav>
-        <a href="../index.html" class="logo">gaussi</a>
+        <a href="/index.html" class="logo">gaussi</a>
         <ul class="nav-links">
-            <li><a href="./tools.html">Tools</a></li>
-            <li><a href="./learn.html">Learn</a></li>
+            <li><a href="/tools.html">Tools</a></li>
+            <li><a href="/learn.html">Learn</a></li>
         </ul>
     </nav>
   </header>
@@ -25,28 +25,185 @@
       <h1>Create Your 3D Gaussian Splat</h1>
       <p class="description">For best results, upload a video where the camera moves smoothly and steadily around the subject and where the subject is static.</p>
       
-      <div class="upload-box">
-        <input type="file" id="video-upload" accept="video/mp4" class="file-input" onchange="handleVideoUpload(event)">
+      <div class="upload-container">
+        <h1>Video Frame Extractor</h1>
+        <p>Upload a video file to generate a 3D scene.</p>
+        
+        <div class="file-input-container" id="dropZone">
+            <span>Drag and drop a video file here or click to select</span>
+            <input type="file" id="fileInput" class="file-input" accept=".mp4,.webm,.mov,.m4v,.mkv">
+        </div>
+
+        <div class="selected-file" id="selectedFile"></div>
+
+        <button class="upload-button" id="uploadButton">Upload Video</button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div id="progressText">0%</div>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+      <!-- <div class="upload-box">
+        <input type="file" id="video-upload" accept=".mp4,.webm,.mov,.m4v,.mkv" class="file-input" onchange="handleVideoUpload(event)">
         <label for="video-upload" class="upload-label">
-          <span>Click to upload your video (MP4)</span>
+          <span>Click to upload your video.</span>
         </label>
       </div>
+      <input type="submit" value="Begin Processing" class="upload-button"> -->
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
-  async function handleVideoUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadButton = document.getElementById('uploadButton');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const status = document.getElementById('status');
+    const selectedFile = document.getElementById('selectedFile');
 
-    // Validate file type
-    if (file.type !== 'video/mp4') {
-      alert('Please upload an MP4 video file');
-      event.target.value = ''; // Clear the input
-      return;
+    const UPLOAD_URL = 'http://localhost:3000/upload';
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+      dropZone.classList.add('dragover');
     }
-    // TODO: Implement video processing logic here
-  }
+
+    function unhighlight(e) {
+      dropZone.classList.remove('dragover');
+    }
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles(files);
+    }
+
+    // Handle file selection
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+      if (files.length > 0) {
+        const file = files[0];
+        if (file.type.startsWith('video/')) {
+          showSelectedFile(file);
+          fileInput.files = files;
+          uploadButton.style.display = 'block';
+        }
+        else {
+          showError('Please select a video file');
+        }
+      }
+    }
+
+    function showSelectedFile(file) {
+      selectedFile.style.display = 'block';
+      selectedFile.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Handle upload
+    uploadButton.addEventListener('click', uploadFile);
+
+    async function uploadFile() {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      // Reset UI
+      status.style.display = 'none';
+      progressContainer.style.display = 'block';
+      uploadButton.disabled = true;
+
+      const formData = new FormData();
+      formData.append('video', file);
+
+      try {
+        const response = await axios.post(UPLOAD_URL, formData, {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            progressBar.style.width = percentCompleted + '%';
+            progressText.textContent = percentCompleted + '%';
+          }
+        });
+
+        showSuccess('Upload successful! Server response: ' + JSON.stringify(response.data));
+      } catch (error) {
+        showError('Upload failed: ' + (error.response?.data?.error || error.message));
+      } finally {
+        uploadButton.disabled = false;
+      }
+    }
+
+    function showError(message) {
+        status.className = 'status error';
+        status.textContent = message;
+        status.style.display = 'block';
+    }
+
+    function showSuccess(message) {
+        status.className = 'status success';
+        status.textContent = message;
+        status.style.display = 'block';
+    }
+
+  // async function handleVideoUpload(event) {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
+
+  //   const ftypes = ['video/mp4',
+  //   'video/webm',
+  //   'video/ogg',
+  //   'video/quicktime',
+  //   'video/x-msvideo',
+  //   'video/x-matroska'];
+
+  //   // Validate file type
+  //   if (!ftypes.includes(file.type)) {
+  //     alert('Please upload a valid video file.');
+  //     event.target.value = ''; // Clear the input
+  //     return;
+  //   }
+  //   // TODO: Implement video processing logic here
+  //   const response = await fetch('http://localhost:3000/upload', {
+  //     method: 'POST',
+  //     file: {video: file}
+  //   });
+
+  //   const data = await response.json();
+  //   console.log(data);
+  // }
   </script>
 
 </body>
