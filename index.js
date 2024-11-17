@@ -32,7 +32,7 @@ async function main() {
 async function loadSplats() {
   try {
     const response = await fetch('http://localhost:3000/getfiles');
-    const splatNames = await response.json();
+    const splatNames = await response.json().files;
 
 
     const splatsList = document.getElementById('splats-list');
