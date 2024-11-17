@@ -143,5 +143,64 @@ nav {
   transition: background-color 0.3s ease;
 }
 
+#main-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  margin: 0 10%;
+}
+
+#render-area {
+  flex: 1;
+  margin-right: 0;
+}
+
+#splat-canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+#splats-container {
+  width: 200px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  align-self: flex-start;
+  margin-left: 10px;
+}
+
+#splats-container h3 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+#splats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#splats-list li {
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#splats-list li:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 
 

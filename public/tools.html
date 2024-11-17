@@ -24,28 +24,26 @@
     <section class="upload-section">
       <h1>Create Your 3D Gaussian Splat</h1>
       <p class="description">For best results, upload a video where the camera moves smoothly and steadily around the subject and where the subject is static.</p>
-      
-      <div class="upload-container">
-        <h1>Video Frame Extractor</h1>
-        <p>Upload a video file to generate a 3D scene.</p>
-        
-        <div class="file-input-container" id="dropZone">
-            <span>Drag and drop a video file here or click to select</span>
-            <input type="file" id="fileInput" class="file-input" accept=".mp4,.webm,.mov,.m4v,.mkv">
-        </div>
 
-        <div class="selected-file" id="selectedFile"></div>
-
-        <button class="upload-button" id="uploadButton">Upload Video</button>
-
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar">
-                <div class="progress-bar-fill" id="progressBar"></div>
+        <div class="upload-area">
+            <div class="file-input-container modern-dropzone" id="dropZone">
+                <span class="dropzone-text">Drag and drop a video file here or click to select</span>
+                <input type="file" id="fileInput" class="file-input" accept=".mp4,.webm,.mov,.m4v,.mkv">
             </div>
-            <div id="progressText">0%</div>
+            <div class="button-container">
+                <button class="upload-button modern-upload-button" id="uploadButton">Submit</button>
+            </div>
+        </div>
+        <div class="selected-file modern-selected-file" id="selectedFile"></div>
+
+        <div class="progress-container modern-progress-container" id="progressContainer">
+            <div class="progress-bar modern-progress-bar">
+                <div class="progress-bar-fill modern-progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div id="progressText" class="progress-text">0%</div>
         </div>
 
-        <div class="status" id="status"></div>
+        <div class="status modern-status" id="status"></div>
     </div>
 
       <!-- <div class="upload-box">
@@ -108,7 +106,7 @@
     fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
     function handleFiles(files) {
-      if (files.length > 0) {
+      if (files.length > 0) { 
         const file = files[0];
         if (file.type.startsWith('video/')) {
           showSelectedFile(file);
@@ -134,16 +132,20 @@
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    // Handle upload
+    // Initially hide the progress bar
+    progressContainer.style.display = 'none';
+
     uploadButton.addEventListener('click', uploadFile);
 
     async function uploadFile() {
       const file = fileInput.files[0];
       if (!file) return;
 
+      // Show the progress bar when upload starts
+      progressContainer.style.display = 'block';
+
       // Reset UI
       status.style.display = 'none';
-      progressContainer.style.display = 'block';
       uploadButton.disabled = true;
 
       const formData = new FormData();
