@@ -1,45 +1,147 @@
-/* Reset some default browser styles */
-body, h1, h2, h3, p, ul, li {
+body {
+  font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
-  list-style: none;
-}
-
-/* Set a background color and font styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  background-color: #f8f8f8;
   color: #333;
-  line-height: 1.6;
 }
 
-/* Style the main app container */
-#app {
-  max-width: 800px;
-  margin: 50px auto;
+header {
+  background-color: #f8f8f8;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Add some styles for headings */
-h1, h2, h3 {
-  color: #444;
-  margin-bottom: 20px;
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Style links */
-a {
-  color: #3498db;
+.logo {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000;
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
-/* Add some padding to paragraphs */
-p {
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.auth-links {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-links a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.signup-btn {
+  background-color: #007bff;
+  color: #f8f8f8;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.intro {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.intro h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.intro p {
+  font-size: 18px;
   margin-bottom: 20px;
 }
+
+.intro button {
+  background-color: #007bff;
+  color: #f8f8f8;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.intro a {
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+#preview {
+  width: 80%;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 40px 60px;
+  background-color: #f8f8f8;
+  color: #333;
+  text-align: left;
+  border-radius: 12px;
+}
+
+#preview-title {
+  font-size: 3.5em;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+  color: #1a1a1a;
+}
+
+#preview p:first-of-type {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0 0 30px 0;
+  color: #1a1a1a;
+}
+
+#preview p {
+  font-size: 1.3em;
+  line-height: 1.4;
+  margin: 0;
+  color: #4a4a4a;
+}
+
+#try-it-out {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+#try-it-out-button {
+  background-color: #4a4c4e;
+  color: #f8f8f8;
+  margin-top: 12px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#try-it-out-button:hover {
+  background-color: #131313;
+  transition: background-color 0.3s ease;
+}
+
+
+

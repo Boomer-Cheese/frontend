@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>3D Gaussian Splatting</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/tools.css">
+</head>
+<body>
+  <header>
+    <nav>
+        <a href="/index.html" class="logo">gaussi</a>
+        <ul class="nav-links">
+            <li><a href="/tools.html">Tools</a></li>
+            <li><a href="/learn.html">Learn</a></li>
+        </ul>
+    </nav>
+  </header>
+  
+  <main class="tools-container">
+    <section class="upload-section">
+      <h1>Create Your 3D Gaussian Splat</h1>
+      <p class="description">For best results, upload a video where the camera moves smoothly and steadily around the subject and where the subject is static.</p>
+      
+      <div class="upload-box">
+        <input type="file" id="video-upload" accept="video/mp4" class="file-input" onchange="handleVideoUpload(event)">
+        <label for="video-upload" class="upload-label">
+          <span>Click to upload your video (MP4)</span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  async function handleVideoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (file.type !== 'video/mp4') {
+      alert('Please upload an MP4 video file');
+      event.target.value = ''; // Clear the input
+      return;
+    }
+    // TODO: Implement video processing logic here
+  }
+  </script>
+
+</body>
+</html>

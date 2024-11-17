@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>3D Gaussian Splatting</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/learn.css">
+</head>
+<body>
+  <header>
+    <nav>
+        <a href="/index.html" class="logo">gaussi</a>
+        <ul class="nav-links">
+            <li><a href="/tools.html">Tools</a></li>
+            <li><a href="/learn.html">Learn</a></li>
+        </ul>
+    </nav>
+  </header>
+  <main class="learn-container">
+    <h1 class="learn-title">Learn more about Gaussian Splatting</h1>
+    
+    <div class="learn-grid">
+      <section class="learn-section">
+        <h2>How does 3D Gaussian Splatting work?</h2>
+        <p>Gaussian Splatting represents a 3D scene as millions of particles, or 3D gaussians, each of which are shaped like an ellipsoid (a 3D ellipse), with decreasing opacity as the distance from the center of each 3D gaussian increases.</p>
+        
+        <p>Each 3D gaussian has its own unique parameters such as 3D position, orientation, 3D scale, opacity, and view-dependent color. To render these particles efficiently, they are converted into 2D space ("splatted"), and then organized/sorted for performant rendering.</p>
+        
+        <p>In order to generate a scene, a rendered image is compared to the ground truth image from the same camera pose (rotation & position of the camera), and the error between these images is back-propagated through the model to update the parameters associated with each 3D gaussian, along with the camera poses.</p>
+        
+        <p>By iterating thousands of times through the ground truth images provided by the user, the scene is gradually fine tuned to match the ground truth input images. This is similar to how neural networks are trained.</p>
+      </section>
+
+      <section class="learn-section">
+        <h2>How is Gaussian Splatting different from traditional Photogrammetry?</h2>
+        <p>Gaussian splatting generally requires more compute resources than traditional photogrammetry because splatting involves training a model (millions of 3D gaussians) over thousands of iterations per scene.</p>
+        
+        <p>Traditional photogrammetry methods are carefully crafted by the algorithm designer in a step by step task-oriented approach that does not require the numerous iterations that splatting does, other than the Structure From Motion (SFM) portion.</p>
+        
+        <p>SFM involves finding the camera poses and some 3D points on the object, and can require a notable amount of compute power. SFM is the first step in both splatting and traditional photogrammetry methods.</p>
+        
+        <p>All of this means that splatting is generally better at recreating scenes containing thin geometry, reflective surfaces, and other traditionally difficult subjects. Try it out for yourself!</p>
+      </section>
+
+      <section class="references">
+        <h2>Research References</h2>
+        <ul class="references-list">
+          <li class="reference-item">
+            <span class="reference-type">Research Paper</span>
+            <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank">
+              Original 3D Gaussian Splatting Paper
+            </a>
+            <p class="reference-abstract">
+              The foundational paper introducing 3D Gaussian Splatting, presenting a novel approach to neural rendering that achieves real-time performance.
+            </p>
+          </li>
+          <li class="reference-item">
+            <span class="reference-type">Source Code</span>
+            <a href="https://github.com/graphdeco-inria/gaussian-splatting" target="_blank">
+              Official Implementation Repository
+            </a>
+            <p class="reference-abstract">
+              The official codebase from the paper authors, providing a complete implementation of the 3D Gaussian Splatting technique.
+            </p>
+          </li>
+          <li class="reference-item">
+            <span class="reference-type">Video Tutorial</span>
+            <a href="https://www.youtube.com/watch?v=HVv_IQKlafQ" target="_blank">
+              Technical Overview Video
+            </a>
+            <p class="reference-abstract">
+              A comprehensive video explanation of how 3D Gaussian Splatting works, with visual demonstrations and technical insights.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
